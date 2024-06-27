@@ -9,6 +9,7 @@ logging.basicConfig(
     level=logging.INFO, format="[%(asctime)s] %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 TELEGRAM_BASE_URL = "https://api.telegram.org/bot{bot_token}/"
 
@@ -69,6 +70,15 @@ class TNotifier:
         self._chat_id = chat_id
         self._username = username
 
+        if self._chat_id and self._username:
+            status = send_telegram_message(
+                self._bot_token, self._chat_id, "Pre-defined initialization successfull"
+            )
+            if not status:
+                logger.error(
+                    "You pre-defined initialization failed, please check the arguments again or use init method."
+                )
+
     def _start_polling(
         self, awaited_text: str, polling_freq: int = 3, num_retries: int = 10
     ) -> tuple[t.Optional[int], t.Optional[str]]:
@@ -103,6 +113,10 @@ class TNotifier:
                             return chat_id, username
             time.sleep(polling_freq)
             num_retries -= 1
+            logger.info(
+                "Send message to you bot around %d sec time left.",
+                num_retries * polling_freq,
+            )
         return None, None
 
     def init_notification(
@@ -119,6 +133,11 @@ class TNotifier:
             user_def_text = generate_text_for_user()
         self._chat_id, self._username = self._start_polling(
             user_def_text, polling_freq, num_retries
+        )
+        logger.info(
+            "You re-usable credentials are chat_id: %s username: %s",
+            self._chat_id,
+            self._username,
         )
         status = send_telegram_message(
             self._bot_token, self._chat_id, "successfully initialized notifier"
