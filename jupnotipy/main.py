@@ -1,5 +1,6 @@
 import logging
 import time
+import typing as t
 import uuid
 
 import requests
@@ -32,7 +33,7 @@ def get_recent_messages(bot_token, offset=0, limit=20):
         return None
 
 
-def send_telegram_message(bot_token, chat_id, message):
+def send_telegram_message(bot_token: str, chat_id: int, message: str):
     send_message_url = TELEGRAM_BASE_URL.format(bot_token=bot_token) + "sendMessage"
 
     payload = {"chat_id": chat_id, "text": message}
@@ -59,7 +60,10 @@ class TNotifier:
     """A class to handle Telegram bot notifications."""
 
     def __init__(
-        self, bot_token: str, chat_id: int | None = None, username: str | None = None
+        self,
+        bot_token: str,
+        chat_id: t.Optional[int] = None,
+        username: t.Optional[str] = None,
     ):
         self._bot_token = bot_token
         self._chat_id = chat_id
@@ -67,7 +71,7 @@ class TNotifier:
 
     def _start_polling(
         self, awaited_text: str, polling_freq: int = 3, num_retries: int = 10
-    ) -> tuple[int | None, str | None]:
+    ) -> tuple[t.Optional[int], t.Optional[str]]:
         """
         Start polling for a specific message to initialize the notifier.
 
@@ -147,10 +151,10 @@ class TNotifier:
         Raises:
             AssertionError: If init_notification method hasn't been called.
         """
-        assert (
-            self._chat_id and self._username
-        ), (f"call `init_notification` method first \n"
-            f"or chat_id({self._chat_id}) and username({self._username}) predefined incorrectly")
+        assert self._chat_id and self._username, (
+            f"call `init_notification` method first \n"
+            f"or chat_id({self._chat_id}) and username({self._username}) predefined incorrectly"
+        )
         status = send_telegram_message(
             self._bot_token, self._chat_id, self.get_notification_message(text)
         )

@@ -4,9 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["Ilia Kaftanov"]
 readme = "README.md"
+repository = "https://github.com/IlyaKaftanov/jupnotipy"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 requests = "^2.32.3"
 
 
