@@ -113,7 +113,8 @@ def login(bot_token: str, polling_freq: int = 3, num_retries: int = 10):
                     # from telegram side.
                     if awaited_text in message_text:
                         chat_id = message["chat"]["id"]
-                        break
+        if chat_id:
+            break
         time.sleep(polling_freq)
         num_retries -= 1
         logger.info(
