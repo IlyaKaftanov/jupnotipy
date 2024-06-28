@@ -141,13 +141,10 @@ def notify(
     update_credentials: bool = False,
 ):
     credentials = CredentialsCache.load_credentials()
-    print("credentials: ", credentials)
     if not bot_token:
         bot_token = credentials.get("bot_token", "")
     if not chat_id:
         chat_id = credentials.get("chat_id", 0)
-
-    print("bot token: ", bot_token, "chat_id: ", chat_id)
 
     if not bot_token or not chat_id:
         raise ValueError("Login first or check the passed `bot_token` and `chat_id`")
