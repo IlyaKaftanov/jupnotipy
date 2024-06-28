@@ -1,1 +1,1 @@
-from .main import TNotifier
+from .core import notify, login

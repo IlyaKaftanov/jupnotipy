@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jupnotipy"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = ["Ilia Kaftanov"]
 readme = "README.md"
@@ -10,6 +10,8 @@ repository = "https://github.com/IlyaKaftanov/jupnotipy"
 python = "^3.9"
 requests = "^2.32.3"
 
+[tool.poetry.scripts]
+jupnotipy = 'jupnotipy.cli:main'
 
 [build-system]
 requires = ["poetry-core"]
