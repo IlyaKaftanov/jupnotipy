@@ -120,3 +120,7 @@ def my_func():
 # When the function execution is complete, you will be notified.
 my_func()
 ```
+
+## Release log
+
+- 0.1.7 - add support for decorators.
