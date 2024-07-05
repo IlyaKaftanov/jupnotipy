@@ -7,12 +7,14 @@ Simple class for Python Telegram bot notifications, ideal for Jupyter notebooks 
 1. Easy setup: Quickly initialize your Telegram bot and get your chat_id.
 2. Customizable notifications: Send messages with custom text.
 3. Credential management: Cache and manage your bot credentials seamlessly.
+4. CLI support
+5. Python decorators support
 
 ## How this works
 
 JupNotiPy uses your Telegram bot to send you messages. The process involves two main steps:
 
-1. Initialization: Required for obtaining a chat_id.
+1. Initialization: Required for obtaining a chat_id. After first initialization you don't need login again because all data will be cached in file.
 2. Sending: Used for sending notifications through the given bot.
 
 ## Installation
@@ -107,4 +109,14 @@ jupnotipy.notify(message="MY_FANCY_MESSAGE")
 
 # update cached credentials
 jupnotipy.notify(bot_token="YOUR_BOT_TOKEN", chat_id=0, update_credentials=True)
+
+# use decorator function
+@jupnotipy.notify_on_end()
+def my_func():
+    for i in range(100):
+        # do something
+        ...
+
+# When the function execution is complete, you will be notified.
+my_func()
 ```
